@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
                     ) {
                         lux = it
                     }
-                    MBCompass(luxValue = lux, modifier = Modifier.padding(innerPadding))
+                    IllumineSurApp(luxValue = lux, modifier = Modifier.padding(innerPadding))
                 }
             }
         }
@@ -54,7 +54,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MBCompass(
+fun IllumineSurApp(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel = viewModel(),
     luxValue: Float
@@ -69,7 +69,7 @@ fun MBCompass(
         contentAlignment = Alignment.Center
     ) {
             Text(
-                text = "$luxState",
+                text = "Lux: $luxState",
                 style = MaterialTheme.typography.displayMedium
             )
     }
