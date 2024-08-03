@@ -4,8 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -19,6 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
@@ -27,6 +31,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mubarak.illumisur.ui.AndroidSensorEventListener
 import com.mubarak.illumisur.ui.MainViewModel
 import com.mubarak.illumisur.ui.theme.IllumiSurTheme
+import com.mubarak.illumisur.utils.ValueFormatter
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,15 +68,27 @@ fun IllumineSurApp(
     val luxState by viewModel.lux.collectAsStateWithLifecycle()
     viewModel.updateLuxValue(luxValue)
 
-    Box(
+    val formatter = remember(luxValue,luxState) {
+        ValueFormatter.formatValue(luxState)
+    }
+
+    Column(
         modifier = modifier
             .fillMaxSize(),
-        contentAlignment = Alignment.Center
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
-            Text(
-                text = "Lux: $luxState",
-                style = MaterialTheme.typography.displayMedium
-            )
+        Text(
+            text = "Lux: $luxState",
+            style = MaterialTheme.typography.displayMedium
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(
+            text = "Foot Candle: $formatter",
+            style = MaterialTheme.typography.titleLarge
+        )
     }
 }
 
